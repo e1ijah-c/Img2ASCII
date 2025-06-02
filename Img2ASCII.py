@@ -1,3 +1,3 @@
 import PIL as image
 
-print("Hello")
+print("Hello world")
