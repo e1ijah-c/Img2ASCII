@@ -1,7 +1,7 @@
 from PIL import Image, ImageOps
 
 
-imgRaw = Image.open("lion.png")
+imgRaw = Image.open("testimages/lion.png")
 
 wCrop = imgRaw.size[0] % 8
 hCrop = imgRaw.size[1] % 8
