@@ -1,6 +1,5 @@
 from PIL import Image, ImageOps
 
-
 imgRaw = Image.open("testimages/lion.png")
 
 wCrop = imgRaw.size[0] % 8
@@ -163,7 +162,7 @@ for w in range(len(xVals)):
             DrawHash(xVals[w], yVals[h])
 
 img_ASCII.show()
-
+img_ASCII.save("ascii_lion.png")
 
 
 
