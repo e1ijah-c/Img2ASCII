@@ -34,7 +34,6 @@ img = img.convert("RGBA")
 
 img = ImageEnhance.Contrast(img).enhance(3.0)
 img = ImageEnhance.Sharpness(img).enhance(2.0)
-img.show()
 
 # create new blank image of the exact same image
 img_ASCII = Image.new("RGB", img.size)
@@ -134,6 +133,18 @@ def DrawAnd(x: int, y: int):
         img_ASCII.putpixel((x+1+i,y+5), (255, 255, 255))
         img_ASCII.putpixel((x+5+i,y+5), (255, 255, 255))
         img_ASCII.putpixel((x+6+i,y+6), (255, 255, 255))
+
+def DrawX(x: int, y: int):
+    for i in range(4):
+        img_ASCII.putpixel((x+2+i,y+3), (255, 255, 255))
+        img_ASCII.putpixel((x+2+i,y+5), (255, 255, 255))
+    
+    for i in range(2):
+        img_ASCII.putpixel((x+1+i,y+2), (255, 255, 255))
+        img_ASCII.putpixel((x+5+i,y+2), (255, 255, 255))
+        img_ASCII.putpixel((x+1+i,y+6), (255, 255, 255))
+        img_ASCII.putpixel((x+5+i,y+6), (255, 255, 255))
+        img_ASCII.putpixel((x+3+i,y+4), (255, 255, 255))
     
 def DrawSquare(x: int, y: int):
     for i in range(8):
@@ -163,28 +174,23 @@ for w in range(len(xVals)):
             # calculate brightness of 8x8 slot
             brightness = GetBrightness(xVals[w], yVals[h])
 
-            # draw ASCII characters depending on brightness levels
             if 0 <= brightness <= 5:
                 exit
-            elif 6 <= brightness <= 29:
+            elif 6 <= brightness <= 59:
                 DrawDot(xVals[w], yVals[h])
-            elif 30 <= brightness <= 99:
+            elif 60 <= brightness <= 129:
                 DrawPlus(xVals[w], yVals[h])
-            elif 100 <= brightness <= 159:
+            elif 130 <= brightness <= 199:
                 DrawO(xVals[w], yVals[h])
-            elif 160 <= brightness <= 219:
-                DrawAsterisk(xVals[w], yVals[h])
-            elif 220 <= brightness <= 255:
+            elif 200 <= brightness <= 239:
+                DrawX(xVals[w], yVals[h])
+            elif 240 <= brightness <= 255:
                 DrawHash(xVals[w], yVals[h])
             
-
-
-
 # display finished ASCII image
 img_ASCII.show()
 
-
-img_ASCII.save("ascii_lion.png")
+#img_ASCII.save("ascii_lion.png")
 
 
 
