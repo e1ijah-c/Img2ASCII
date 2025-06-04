@@ -1,10 +1,15 @@
 from PIL import Image, ImageOps
 
-imgRaw = Image.open("testimages/lion.png")
+# get reference to desired image
+imgRaw = Image.open("testimages/donut.png")
+ 
+# the following section crops the image to the nearest multiple of 8 so that the ASCII characteres will fit perfectly when converted
 
+# get width and height of image and check if it is perfectly divisible by 8
 wCrop = imgRaw.size[0] % 8
 hCrop = imgRaw.size[1] % 8
 
+# if not perfectly divisible by 8, split pixels to be cropped between the left and right so that it is more even. 
 if wCrop != 0:
     if wCrop % 2 != 0:
         wCropL = int((wCrop / 2) + 0.5)
@@ -14,6 +19,7 @@ if wCrop != 0:
 else:
     wCropL = wCropR = 0
 
+# same function but for the height
 if hCrop != 0:
     if hCrop % 2 != 0:
         hCropT = int((hCrop / 2) + 0.5)
@@ -23,23 +29,24 @@ if hCrop != 0:
 else:
     hCropT = hCropB = 0
 
+# crop the image, and convert its type to RGBA if not already
 img = imgRaw.crop((wCropL, hCropT, imgRaw.size[0] - wCropR, imgRaw.size[1] - hCropB))
 img = img.convert("RGBA")
+
+# create new blank image of the exact same image
 img_ASCII = Image.new("RGB", img.size)
 
-transparentVals = []
-
+# Checks if entire ASCII character slot (8x8 square of pixels) is transparent
 def CheckTransparent(x: int, y: int):
     for i in range(8):
         for n in range(8):
             alpha = img.getpixel((x+i,y+n))[3]
             if alpha > 0:
                 return False
-    transparentVals.append((x, y))
     return True
 
+# calculate brightness for each ASCII character slot (8x8 square of pixels)
 def GetBrightness(x: int, y: int):
-
     sum = 0    
     for w in range(8):
         for h in range(8):
@@ -130,6 +137,7 @@ def DrawSquare(x: int, y: int):
         for n in range(8):
             img_ASCII.putpixel((x+n,y+i), (255, 255, 255))
 
+# get number and location (top left coordinates) of ASCII character slots
 wFactor = int(img.size[0] / 8)
 hFactor = int(img.size[1] / 8)
 xVals = []
@@ -146,23 +154,32 @@ for i in range(hFactor):
 
 for w in range(len(xVals)):
     for h in range(len(yVals)):
+        # if 8x8 slot is transparent then leave it blank
+        if CheckTransparent(xVals[w], yVals[h]) == True:
+            exit
+        
+        # calculate brightness of 8x8 slot
         brightness = GetBrightness(xVals[w], yVals[h])
 
-        if 0 <= brightness <= 5 and CheckTransparent(xVals[w], yVals[h]) == False:
+        # draw ASCII characters depending on brightness levels
+        if 0 <= brightness <= 5:
             exit
-        elif 6 <= brightness <= 29 and CheckTransparent(xVals[w], yVals[h]) == False:
+        elif 6 <= brightness <= 29:
             DrawDot(xVals[w], yVals[h])
-        elif 30 <= brightness <= 99 and CheckTransparent(xVals[w], yVals[h]) == False:
+        elif 30 <= brightness <= 99:
             DrawPlus(xVals[w], yVals[h])
-        elif 100 <= brightness <= 159 and CheckTransparent(xVals[w], yVals[h]) == False:
+        elif 100 <= brightness <= 159:
             DrawO(xVals[w], yVals[h])
-        elif 160 <= brightness <= 219 and CheckTransparent(xVals[w], yVals[h]) == False:
+        elif 160 <= brightness <= 219:
             DrawAsterisk(xVals[w], yVals[h])
-        elif 220 <= brightness <= 255 and CheckTransparent(xVals[w], yVals[h]) == False:
+        elif 220 <= brightness <= 255:
             DrawHash(xVals[w], yVals[h])
 
+# display finished ASCII image
 img_ASCII.show()
-img_ASCII.save("ascii_lion.png")
+
+
+#img_ASCII.save("ascii_apple.png")
 
 
 
