@@ -22,7 +22,7 @@
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
 3. [Roadmap](#-roadmap)
-4. [Contact](#-contact)
+4. [Contact](#%EF%B8%8F-contact)
 
 </details>
 
