@@ -1,7 +1,7 @@
-from PIL import Image, ImageOps
+from PIL import Image, ImageEnhance
 
 # get reference to desired image
-imgRaw = Image.open("testimages/donut.png")
+imgRaw = Image.open("testimages/lion.png")
  
 # the following section crops the image to the nearest multiple of 8 so that the ASCII characteres will fit perfectly when converted
 # get width and height of image and check if it is perfectly divisible by 8
@@ -31,6 +31,10 @@ else:
 # crop the image, and convert its type to RGBA if not already
 img = imgRaw.crop((wCropL, hCropT, imgRaw.size[0] - wCropR, imgRaw.size[1] - hCropB))
 img = img.convert("RGBA")
+
+img = ImageEnhance.Contrast(img).enhance(3.0)
+img = ImageEnhance.Sharpness(img).enhance(2.0)
+img.show()
 
 # create new blank image of the exact same image
 img_ASCII = Image.new("RGB", img.size)
@@ -154,31 +158,33 @@ for i in range(hFactor):
 for w in range(len(xVals)):
     for h in range(len(yVals)):
         # if 8x8 slot is transparent then leave it blank
-        if CheckTransparent(xVals[w], yVals[h]) == True:
-            exit
-        
-        # calculate brightness of 8x8 slot
-        brightness = GetBrightness(xVals[w], yVals[h])
+        if CheckTransparent(xVals[w], yVals[h]) == False:
+            
+            # calculate brightness of 8x8 slot
+            brightness = GetBrightness(xVals[w], yVals[h])
 
-        # draw ASCII characters depending on brightness levels
-        if 0 <= brightness <= 5:
-            exit
-        elif 6 <= brightness <= 29:
-            DrawDot(xVals[w], yVals[h])
-        elif 30 <= brightness <= 99:
-            DrawPlus(xVals[w], yVals[h])
-        elif 100 <= brightness <= 159:
-            DrawO(xVals[w], yVals[h])
-        elif 160 <= brightness <= 219:
-            DrawAsterisk(xVals[w], yVals[h])
-        elif 220 <= brightness <= 255:
-            DrawHash(xVals[w], yVals[h])
+            # draw ASCII characters depending on brightness levels
+            if 0 <= brightness <= 5:
+                exit
+            elif 6 <= brightness <= 29:
+                DrawDot(xVals[w], yVals[h])
+            elif 30 <= brightness <= 99:
+                DrawPlus(xVals[w], yVals[h])
+            elif 100 <= brightness <= 159:
+                DrawO(xVals[w], yVals[h])
+            elif 160 <= brightness <= 219:
+                DrawAsterisk(xVals[w], yVals[h])
+            elif 220 <= brightness <= 255:
+                DrawHash(xVals[w], yVals[h])
+            
+
+
 
 # display finished ASCII image
 img_ASCII.show()
 
 
-#img_ASCII.save("ascii_apple.png")
+img_ASCII.save("ascii_lion.png")
 
 
 
