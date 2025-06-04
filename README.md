@@ -16,13 +16,13 @@
 
 <summary>Contents</summary>
 
-1. [About the Project](https://github.com/e1ijah-c/Img2ASCII?tab=readme-ov-file#-about-the-project)
-    - [How It Works](https://github.com/e1ijah-c/Img2ASCII?tab=readme-ov-file#how-it-works) 
-2. [Getting Started](https://github.com/e1ijah-c/Img2ASCII/blob/main/README.md#-getting-started)
-    - [Prerequisites](https://github.com/e1ijah-c/Img2ASCII?tab=readme-ov-file#prerequisites)
-    - [Installation](https://github.com/e1ijah-c/Img2ASCII?tab=readme-ov-file#installation)
-3. [Roadmap](https://github.com/e1ijah-c/Img2ASCII?tab=readme-ov-file#-roadmap)
-4. [Contact](https://github.com/e1ijah-c/Img2ASCII?tab=readme-ov-file#%EF%B8%8F-contact)
+1. [About the Project](#-about-the-project)
+    - [The Process & How It Works](#the-process--how-it-works) 
+2. [Getting Started](#-getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+3. [Roadmap](#-roadmap)
+4. [Contact](#-contact)
 
 </details>
 
