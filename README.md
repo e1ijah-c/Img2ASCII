@@ -51,7 +51,15 @@ if wCrop != 0:
     else:
         wCropL = wCropR = wCrop / 2
 ```
-By then calculating the top-left coordinates of each '8x8 slot' it ensures each ASCII character is drawn from the frame of reference each time.
+Another aspect of the 'pre-processing' of the image is to enhance both the sharpness and contrast to make the output image have more defined edges and distinction between colours, resulting in better looking ASCII art. 
+
+This is conveniently done using _Pillow's_ built in class <ins>ImageEnhance</ins>: 
+```python
+img = ImageEnhance.Contrast(img).enhance(3.0)
+img = ImageEnhance.Sharpness(img).enhance(2.0)
+```
+
+Moving on, calculating the top-left coordinates of each '8x8 slot' it ensures each ASCII character is drawn from the frame of reference each time.
 ```python
 # get number and location (top left coordinates) of ASCII character slots
 wFactor = int(img.size[0] / 8)
