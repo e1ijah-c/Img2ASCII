@@ -135,7 +135,7 @@ git remote -v
 
 - [x] Make working program
 - [ ] Finish README file
-- [ ] Improve output quality by first increasing contrast of original image
+- [x] Improve output quality by first increasing contrast of original image
     - [ ] Implement outlines using Sobel Filter?
 - [ ] Create simple GUI using TKinter
 
