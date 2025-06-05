@@ -1,4 +1,4 @@
-from PIL import Image, ImageEnhance
+from PIL import Image, ImageEnhance, ImageOps
 
 # get reference to desired image
 imgRaw = Image.open("testimages/lion.png")
@@ -30,13 +30,13 @@ else:
 
 # crop the image, and convert its type to RGBA if not already
 img = imgRaw.crop((wCropL, hCropT, imgRaw.size[0] - wCropR, imgRaw.size[1] - hCropB))
-img = img.convert("RGBA")
+img = ImageOps.grayscale(img)
 
-img = ImageEnhance.Contrast(img).enhance(3.0)
+# enhance sharpness to improve visual clarity of output
 img = ImageEnhance.Sharpness(img).enhance(2.0)
 
 # create new blank image of the exact same image
-img_ASCII = Image.new("RGB", img.size)
+img_ASCII = Image.new("L", img.size, 0)
 
 # Checks if entire ASCII character slot (8x8 square of pixels) is transparent
 def CheckTransparent(x: int, y: int):
@@ -52,104 +52,101 @@ def GetBrightness(x: int, y: int):
     sum = 0    
     for w in range(8):
         for h in range(8):
+            brightness = img.getpixel((x+w,y+h))
+            sum += brightness
 
-            r = img.getpixel((x+w,y+h))[0]
-            g = img.getpixel((x+w,y+h))[1]
-            b = img.getpixel((x+w,y+h))[2]
-            sum += (r+g+b)
-
-    return int(sum / 192)
+    return int(sum / 64)
 
 def DrawDot(x: int, y: int):
-    img_ASCII.putpixel((x+3,y+6), (255, 255, 255))
-    img_ASCII.putpixel((x+4,y+6), (255, 255, 255))
-    img_ASCII.putpixel((x+3,y+5), (255, 255, 255))
-    img_ASCII.putpixel((x+4,y+5), (255, 255, 255))
+    img_ASCII.putpixel((x+3,y+6), (255))
+    img_ASCII.putpixel((x+4,y+6), (255))
+    img_ASCII.putpixel((x+3,y+5), (255))
+    img_ASCII.putpixel((x+4,y+5), (255))
 
 def DrawPlus(x: int, y: int):
     for i in range(6):
-        img_ASCII.putpixel((x+1+i,y+3), (255, 255, 255))
+        img_ASCII.putpixel((x+1+i,y+3), (255))
 
     for i in range(5):    
-        img_ASCII.putpixel((x+3,y+1+i), (255, 255, 255))
-        img_ASCII.putpixel((x+4,y+1+i), (255, 255, 255))
+        img_ASCII.putpixel((x+3,y+1+i), (255))
+        img_ASCII.putpixel((x+4,y+1+i), (255))
 
 def DrawHash(x: int, y: int):
     for i in range(8):
-        img_ASCII.putpixel((x+i,y+2), (255, 255, 255))
-        img_ASCII.putpixel((x+i,y+5), (255, 255, 255))
+        img_ASCII.putpixel((x+i,y+2), (255))
+        img_ASCII.putpixel((x+i,y+5), (255))
     
     for i in range(6):
-        img_ASCII.putpixel((x+1,y+1+i), (255, 255, 255))
-        img_ASCII.putpixel((x+2,y+1+i), (255, 255, 255))
-        img_ASCII.putpixel((x+5,y+1+i), (255, 255, 255))
-        img_ASCII.putpixel((x+6,y+1+i), (255, 255, 255))
+        img_ASCII.putpixel((x+1,y+1+i), (255))
+        img_ASCII.putpixel((x+2,y+1+i), (255))
+        img_ASCII.putpixel((x+5,y+1+i), (255))
+        img_ASCII.putpixel((x+6,y+1+i), (255))
 
 def DrawO(x: int, y: int):
     for i in range(4):
-        img_ASCII.putpixel((x+2+i,y+2), (255, 255, 255))
-        img_ASCII.putpixel((x+2+i,y+6), (255, 255, 255))
+        img_ASCII.putpixel((x+2+i,y+2), (255))
+        img_ASCII.putpixel((x+2+i,y+6), (255))
 
     for i in range(2):
-        img_ASCII.putpixel((x+1+i,y+3), (255, 255, 255))
-        img_ASCII.putpixel((x+5+i,y+3), (255, 255, 255))
-        img_ASCII.putpixel((x+1+i,y+4), (255, 255, 255))
-        img_ASCII.putpixel((x+5+i,y+4), (255, 255, 255))
-        img_ASCII.putpixel((x+1+i,y+5), (255, 255, 255))
-        img_ASCII.putpixel((x+5+i,y+5), (255, 255, 255))
+        img_ASCII.putpixel((x+1+i,y+3), (255))
+        img_ASCII.putpixel((x+5+i,y+3), (255))
+        img_ASCII.putpixel((x+1+i,y+4), (255))
+        img_ASCII.putpixel((x+5+i,y+4), (255))
+        img_ASCII.putpixel((x+1+i,y+5), (255))
+        img_ASCII.putpixel((x+5+i,y+5), (255))
 
 def DrawAsterisk(x: int, y: int):
     for i in range(8):
-        img_ASCII.putpixel((x+i,y+3), (255, 255, 255))
+        img_ASCII.putpixel((x+i,y+3), (255))
     
     for i in range(4):
-        img_ASCII.putpixel((x+2+i,y+2), (255, 255, 255))
-        img_ASCII.putpixel((x+2+i,y+4), (255, 255, 255))
+        img_ASCII.putpixel((x+2+i,y+2), (255))
+        img_ASCII.putpixel((x+2+i,y+4), (255))
     
-    img_ASCII.putpixel((x+1,y+1), (255, 255, 255))
-    img_ASCII.putpixel((x+2,y+1), (255, 255, 255))
-    img_ASCII.putpixel((x+5,y+1), (255, 255, 255))
-    img_ASCII.putpixel((x+6,y+1), (255, 255, 255))
+    img_ASCII.putpixel((x+1,y+1), (255))
+    img_ASCII.putpixel((x+2,y+1), (255))
+    img_ASCII.putpixel((x+5,y+1), (255))
+    img_ASCII.putpixel((x+6,y+1), (255))
 
-    img_ASCII.putpixel((x+1,y+5), (255, 255, 255))
-    img_ASCII.putpixel((x+2,y+5), (255, 255, 255))
-    img_ASCII.putpixel((x+5,y+5), (255, 255, 255))
-    img_ASCII.putpixel((x+6,y+5), (255, 255, 255))
+    img_ASCII.putpixel((x+1,y+5), (255))
+    img_ASCII.putpixel((x+2,y+5), (255))
+    img_ASCII.putpixel((x+5,y+5), (255))
+    img_ASCII.putpixel((x+6,y+5), (255))
 
 def DrawAnd(x: int, y: int):
     for i in range(4):
-        img_ASCII.putpixel((x+4+i,y+4), (255, 255, 255))
+        img_ASCII.putpixel((x+4+i,y+4), (255))
     
     for i in range(3):
-        img_ASCII.putpixel((x+3+i,y), (255, 255, 255))
-        img_ASCII.putpixel((x+3+i,y+2), (255, 255, 255))
-        img_ASCII.putpixel((x+2+i,y+3), (255, 255, 255))
-        img_ASCII.putpixel((x+2+i,y+6), (255, 255, 255))
+        img_ASCII.putpixel((x+3+i,y), (255))
+        img_ASCII.putpixel((x+3+i,y+2), (255))
+        img_ASCII.putpixel((x+2+i,y+3), (255))
+        img_ASCII.putpixel((x+2+i,y+6), (255))
     
     for i in range(2):
-        img_ASCII.putpixel((x+2+i,y+1), (255, 255, 255))
-        img_ASCII.putpixel((x+5+i,y+1), (255, 255, 255))
-        img_ASCII.putpixel((x+1+i,y+4), (255, 255, 255))
-        img_ASCII.putpixel((x+1+i,y+5), (255, 255, 255))
-        img_ASCII.putpixel((x+5+i,y+5), (255, 255, 255))
-        img_ASCII.putpixel((x+6+i,y+6), (255, 255, 255))
+        img_ASCII.putpixel((x+2+i,y+1), (255))
+        img_ASCII.putpixel((x+5+i,y+1), (255))
+        img_ASCII.putpixel((x+1+i,y+4), (255))
+        img_ASCII.putpixel((x+1+i,y+5), (255))
+        img_ASCII.putpixel((x+5+i,y+5), (255))
+        img_ASCII.putpixel((x+6+i,y+6), (255))
 
 def DrawX(x: int, y: int):
     for i in range(4):
-        img_ASCII.putpixel((x+2+i,y+3), (255, 255, 255))
-        img_ASCII.putpixel((x+2+i,y+5), (255, 255, 255))
+        img_ASCII.putpixel((x+2+i,y+3), (255))
+        img_ASCII.putpixel((x+2+i,y+5), (255))
     
     for i in range(2):
-        img_ASCII.putpixel((x+1+i,y+2), (255, 255, 255))
-        img_ASCII.putpixel((x+5+i,y+2), (255, 255, 255))
-        img_ASCII.putpixel((x+1+i,y+6), (255, 255, 255))
-        img_ASCII.putpixel((x+5+i,y+6), (255, 255, 255))
-        img_ASCII.putpixel((x+3+i,y+4), (255, 255, 255))
+        img_ASCII.putpixel((x+1+i,y+2), (255))
+        img_ASCII.putpixel((x+5+i,y+2), (255))
+        img_ASCII.putpixel((x+1+i,y+6), (255))
+        img_ASCII.putpixel((x+5+i,y+6), (255))
+        img_ASCII.putpixel((x+3+i,y+4), (255))
     
 def DrawSquare(x: int, y: int):
-    for i in range(8):
-        for n in range(8):
-            img_ASCII.putpixel((x+n,y+i), (255, 255, 255))
+    for i in range(6):
+        for n in range(6):
+            img_ASCII.putpixel((x+1+n,y+1+i), (255))
 
 # get number and location (top left coordinates) of ASCII character slots
 wFactor = int(img.size[0] / 8)
@@ -169,28 +166,31 @@ for i in range(hFactor):
 for w in range(len(xVals)):
     for h in range(len(yVals)):
         # if 8x8 slot is transparent then leave it blank
-        if CheckTransparent(xVals[w], yVals[h]) == False:
+        #if CheckTransparent(xVals[w], yVals[h]) == False:
             
             # calculate brightness of 8x8 slot
             brightness = GetBrightness(xVals[w], yVals[h])
 
-            if 0 <= brightness <= 5:
+            if 0 <= brightness <= 36:
                 exit
-            elif 6 <= brightness <= 59:
+            elif 37 <= brightness <= 72:
                 DrawDot(xVals[w], yVals[h])
-            elif 60 <= brightness <= 129:
+            elif 73 <= brightness <= 108:
                 DrawPlus(xVals[w], yVals[h])
-            elif 130 <= brightness <= 199:
+            elif 109 <= brightness <= 144:
                 DrawO(xVals[w], yVals[h])
-            elif 200 <= brightness <= 239:
+            elif 145 <= brightness <= 180:
                 DrawX(xVals[w], yVals[h])
-            elif 240 <= brightness <= 255:
+            elif 181 <= brightness <= 216:
                 DrawHash(xVals[w], yVals[h])
+            elif 217 <= brightness <= 255:
+                DrawSquare(xVals[w], yVals[h])
             
 # display finished ASCII image
+img.show()
 img_ASCII.show()
 
-#img_ASCII.save("ascii_lion.png")
+img_ASCII.save("ascii_lion.png")
 
 
 
