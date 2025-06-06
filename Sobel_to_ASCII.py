@@ -4,9 +4,9 @@ import Img2ASCII as asc
 
 
 img = asc.img
-img.show()
 
-
+asc.img_ASCII.show()
+sobel_img = sobel_img = Image.new("L", ([img.size[0], img.size[1]]), 0)
 sobel_img_ASCII = asc.img_ASCII
 
 def xDirKernel(top_left: int, top_center:int, top_right: int, 
@@ -49,8 +49,15 @@ def DrawSlash(x: int, y: int):
         sobel_img_ASCII.putpixel((x+3,y+4-i), (255))
         sobel_img_ASCII.putpixel((x+4,y+3-i), (255))
         sobel_img_ASCII.putpixel((x+5,y+2-i), (255))
+
+        sobel_img.putpixel((x+2,y+5-i), (255))
+        sobel_img.putpixel((x+1,y+6-i), (255))
+        sobel_img.putpixel((x+3,y+4-i), (255))
+        sobel_img.putpixel((x+4,y+3-i), (255))
+        sobel_img.putpixel((x+5,y+2-i), (255))
     
     sobel_img_ASCII.putpixel((x+6,y+1), (255))
+    sobel_img.putpixel((x+6,y+1), (255))
 
 def DrawBackSlash(x: int, y: int):
     for i in range(2):
@@ -59,17 +66,28 @@ def DrawBackSlash(x: int, y: int):
         sobel_img_ASCII.putpixel((x+3,y+3+i), (255))
         sobel_img_ASCII.putpixel((x+4,y+4+i), (255))
         sobel_img_ASCII.putpixel((x+5,y+5+i), (255))
+
+        sobel_img.putpixel((x+1,y+1+i), (255))
+        sobel_img.putpixel((x+2,y+2+i), (255))
+        sobel_img.putpixel((x+3,y+3+i), (255))
+        sobel_img.putpixel((x+4,y+4+i), (255))
+        sobel_img.putpixel((x+5,y+5+i), (255))
         
     sobel_img_ASCII.putpixel((x+6,y+6), (255))
+    sobel_img.putpixel((x+6,y+6), (255))
 
 def DrawUnderScore(x: int, y: int):
     for i in range(8):
         sobel_img_ASCII.putpixel((x+i,y+7), (255))
+        sobel_img.putpixel((x+i,y+7), (255))
 
 def DrawVerticalBar(x: int, y: int):
     for i in range(8):
         sobel_img_ASCII.putpixel((x+3,y+i), (255))
         sobel_img_ASCII.putpixel((x+4,y+i), (255))
+        
+        sobel_img.putpixel((x+3,y+i), (255))
+        sobel_img.putpixel((x+4,y+i), (255))
 
 def ClearSlot(x: int, y:int):
     for i in range(8):
@@ -152,6 +170,7 @@ for i in range(len(anchor_positions)-1):
             DrawBackSlash(x, y)
         elif pi/2-0.2 < angle < pi/2+0.2 or  -(pi/2)-0.2< angle < -(pi/2)+0.2:
             DrawVerticalBar(x, y)
-        
 
+asc.img.show()
+sobel_img.show()
 sobel_img_ASCII.show()

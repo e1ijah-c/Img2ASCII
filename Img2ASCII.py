@@ -1,7 +1,7 @@
 from PIL import Image, ImageEnhance, ImageOps
 
 # get reference to desired image
-imgRaw = Image.open("testimages/spongebob.png")
+imgRaw = Image.open("testimages/circle.jpg")
  
 # the following section crops the image to the nearest multiple of 8 so that the ASCII characteres will fit perfectly when converted
 # get width and height of image and check if it is perfectly divisible by 8
