@@ -1,7 +1,7 @@
 from PIL import Image, ImageEnhance, ImageOps
 
 # get reference to desired image
-imgRaw = Image.open("testimages/lion.png")
+imgRaw = Image.open("testimages/spongebob.png")
  
 # the following section crops the image to the nearest multiple of 8 so that the ASCII characteres will fit perfectly when converted
 # get width and height of image and check if it is perfectly divisible by 8
@@ -28,7 +28,7 @@ if hCrop != 0:
 else:
     hCropT = hCropB = 0
 
-# crop the image, and convert its type to RGBA if not already
+# crop the image, and convert its type to grayscale if not already
 img = imgRaw.crop((wCropL, hCropT, imgRaw.size[0] - wCropR, imgRaw.size[1] - hCropB))
 img = ImageOps.grayscale(img)
 
@@ -187,10 +187,10 @@ for w in range(len(xVals)):
                 DrawSquare(xVals[w], yVals[h])
             
 # display finished ASCII image
-img.show()
-img_ASCII.show()
+#img.show()
+#img_ASCII.show()
 
-img_ASCII.save("ascii_lion.png")
+#img_ASCII.save("ascii_lion.png")
 
 
 
