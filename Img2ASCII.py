@@ -1,7 +1,7 @@
 from PIL import Image, ImageEnhance, ImageOps
 
 # get reference to desired image
-imgRaw = Image.open("testimages/circle.jpg")
+imgRaw = Image.open("testimages/lion.png")
  
 # the following section crops the image to the nearest multiple of 8 so that the ASCII characteres will fit perfectly when converted
 # get width and height of image and check if it is perfectly divisible by 8
@@ -187,10 +187,8 @@ for w in range(len(xVals)):
                 DrawSquare(xVals[w], yVals[h])
             
 # display finished ASCII image
-#img.show()
-#img_ASCII.show()
-
-#img_ASCII.save("ascii_lion.png")
+img_ASCII.show()
+img_ASCII.save("ascii_img.png")
 
 
 
