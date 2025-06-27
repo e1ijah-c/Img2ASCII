@@ -142,10 +142,8 @@ git remote -v
 ## 🚙 Roadmap
 
 - [x] Make working program
-- [ ] Finish README file
+- [x] Finish README file
 - [x] Improve output quality by first increasing contrast of original image
-    - [ ] Implement outlines using Sobel Filter?
-- [ ] Create simple GUI using TKinter
 
 ## ☎️ Contact
 
